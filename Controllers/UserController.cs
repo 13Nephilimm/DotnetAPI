@@ -16,15 +16,6 @@ public class UserController : ControllerBase
         _dapper = new DataContextDapper(config);
     }
 
-    [HttpGet("TestConnection")]
-
-    public DateTime TestConnection()
-    {
-        return _dapper.LoadDataSingle<DateTime>("SELECT GETDATE()");
-    }
-
-
-
 
     [HttpGet("GetUsers")]
 
@@ -92,6 +83,79 @@ public class UserController : ControllerBase
             '{user.Email}',
             '{user.Gender}',
             '{user.Active}'
+        )
+        ";
+
+        if(_dapper.ExecuteSql(sql))
+        {
+            return Ok();
+        }
+
+        throw new Exception("Failed to add user");
+    }
+
+
+    [HttpDelete("DeleteUser/{userId}")]
+    public IActionResult DeleteUser(int userId)
+    {
+        string sql = $@"
+         DELETE FROM TutorialAppSchema.Users WHERE UserId = {userId}
+        ";
+
+        if(_dapper.ExecuteSql(sql))
+        {
+            return Ok();
+        }
+
+        throw new Exception("Failed to delete user");
+    }
+
+
+    /// /////////////////////////////// USER JOB INFO ROUTES
+    
+     [HttpGet("GetUserJobInfo")]
+
+    public IEnumerable<UserJobInfo> GetUserJobInfo()
+    {
+        string sql = @"
+            SELECT *
+            FROM TutorialAppSchema.UserJobInfo
+        ";
+        IEnumerable<UserJobInfo> userJobInfo = _dapper.LoadData<UserJobInfo>(sql);
+    return userJobInfo;
+    }
+
+
+    [HttpPut("EditUserJobInfo")]
+    public IActionResult EditUserJobInfo(UserJobInfo userJobInfo)
+    {
+        string sql = $@"
+        UPDATE TutorialAppSchema.UserJobInfo
+            SET [JobTitle] = '{userJobInfo.JobTitle}',
+            [Department] = '{userJobInfo.Department}'
+        WHERE UserId = {userJobInfo.UserId}
+        ";
+        Console.WriteLine(sql);
+
+        if(_dapper.ExecuteSql(sql))
+        {
+            return Ok();
+        }
+
+        throw new Exception("Failed to update user job info");
+    } 
+
+
+    [HttpPost("AddUserJobInfo")]
+    public IActionResult AddUserJobInfo(UserJobInfoToAddDto userJobInfo)
+    {
+        string sql = $@"
+         INSERT INTO TutorialAppSchema.UserJobInfo(
+            [JobTitle],
+            [Department]
+        ) VALUES (
+            '{userJobInfo.JobTitle}',
+            '{userJobInfo.Department}'
         )
         ";
 
