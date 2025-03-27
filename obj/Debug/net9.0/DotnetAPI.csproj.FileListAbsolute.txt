@@ -88,3 +88,4 @@ C:\Users\Nephilim\dotnet-api\DotnetAPI\bin\Debug\net9.0\Microsoft.Extensions.Con
 C:\Users\Nephilim\dotnet-api\DotnetAPI\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.SqlServer.dll
 C:\Users\Nephilim\dotnet-api\DotnetAPI\bin\Debug\net9.0\System.Formats.Asn1.dll
 C:\Users\Nephilim\dotnet-api\DotnetAPI\bin\Debug\net9.0\System.Text.Json.dll
+C:\Users\Nephilim\dotnet-api\DotnetAPI\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
